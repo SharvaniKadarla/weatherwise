@@ -106,10 +106,12 @@ export async function POST(
     // -------------------------
 
     const weather =
-      await getWeather(
-        locationResult.latitude,
-        locationResult.longitude
-      );
+  await getWeather(
+    locationResult.latitude,
+    locationResult.longitude,
+    startDate,
+    endDate
+  );
 
     // -------------------------
     // Save to database

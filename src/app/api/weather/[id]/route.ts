@@ -104,10 +104,12 @@ export async function PUT(
     }
 
     const weather =
-      await getWeather(
-        locationResult.latitude,
-        locationResult.longitude
-      );
+  await getWeather(
+    locationResult.latitude,
+    locationResult.longitude,
+    startDate,
+    endDate
+  );
 
     const {
       data,

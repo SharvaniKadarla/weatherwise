@@ -82,6 +82,14 @@ Weather information can be exported as CSV or JSON
 
 ---
 
+## 🌐 Live Demo
+
+**WeatherWise:** https://weatherwise-delta.vercel.app/
+
+The live application is deployed on Vercel and can be accessed directly using the link above.
+
+---
+
 ## 📋 Assessment Coverage
 
 WeatherWise addresses both major parts of the technical assessment.
@@ -558,18 +566,23 @@ The source code is available on GitHub:
 
 ---
 
-## 🌐 Live Demo
-
-**WeatherWise:** https://weatherwise-delta.vercel.app/
-
----
-
 ## 🚀 Deployment
 
-WeatherWise can be deployed directly to Vercel:
-1. Connect the GitHub repository.
-2. Configure production environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `YOUTUBE_API_KEY`).
-3. Deploy the build.
+WeatherWise is deployed on Vercel.
+
+### Production Deployment
+
+**Live Application:** https://weatherwise-delta.vercel.app/
+
+Deployment configuration:
+
+1. GitHub repository connected to Vercel.
+2. Next.js framework detected automatically.
+3. Production environment variables configured in Vercel:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `YOUTUBE_API_KEY`
+4. Application deployed as a production Next.js application.
 
 ---
 

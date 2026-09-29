@@ -29,13 +29,22 @@ export default function DateRangeForecast({
 
   return (
     <section className="date-range-section">
-      <h2>Selected Date Range</h2>
+      <div className="section-heading">
+        <div>
+          <span className="section-eyebrow">
+            YOUR TRIP
+          </span>
 
-      <p className="date-range-description">
-        Weather forecast for{" "}
-        <strong>{startDate}</strong> through{" "}
-        <strong>{endDate}</strong>.
-      </p>
+          <h2>Selected Date Range</h2>
+
+          <p className="date-range-description">
+            Weather forecast for{" "}
+            <strong>{startDate}</strong>{" "}
+            through{" "}
+            <strong>{endDate}</strong>.
+          </p>
+        </div>
+      </div>
 
       <div className="date-range-grid">
         {daily.time.map(
@@ -44,20 +53,29 @@ export default function DateRangeForecast({
               key={date}
               className="date-range-card"
             >
-              <h3>
-                {new Date(
-                  `${date}T00:00:00`
-                ).toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                  }
-                )}
-              </h3>
+              <div className="date-range-card-top">
+                <h3>
+                  {new Date(
+                    `${date}T00:00:00`
+                  ).toLocaleDateString(
+                    "en-US",
+                    {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                    }
+                  )}
+                </h3>
 
-              <div className="forecast-icon">
+                <span className="day-number">
+                  {index + 1}
+                </span>
+              </div>
+
+              <div
+                className="forecast-icon"
+                aria-hidden="true"
+              >
                 {getWeatherIcon(
                   daily.weather_code[index]
                 )}
@@ -69,46 +87,56 @@ export default function DateRangeForecast({
                 )}
               </p>
 
-              <p>
-                <strong>High:</strong>{" "}
-                {
-                  daily.temperature_2m_max[
-                    index
-                  ]
-                }
-                °F
-              </p>
+              <div className="date-range-stats">
+                <div className="date-range-stat">
+                  <span>High</span>
+                  <strong>
+                    {
+                      daily.temperature_2m_max[
+                        index
+                      ]
+                    }
+                    °F
+                  </strong>
+                </div>
 
-              <p>
-                <strong>Low:</strong>{" "}
-                {
-                  daily.temperature_2m_min[
-                    index
-                  ]
-                }
-                °F
-              </p>
+                <div className="date-range-stat">
+                  <span>Low</span>
+                  <strong>
+                    {
+                      daily.temperature_2m_min[
+                        index
+                      ]
+                    }
+                    °F
+                  </strong>
+                </div>
 
-              <p>
-                <strong>Rain:</strong>{" "}
-                {
-                  daily
-                    .precipitation_probability_max[
-                    index
-                  ]
-                }
-                %
-              </p>
+                <div className="date-range-stat">
+                  <span>Rain</span>
+                  <strong>
+                    {
+                      daily
+                        .precipitation_probability_max[
+                        index
+                      ]
+                    }
+                    %
+                  </strong>
+                </div>
 
-              <p>
-                <strong>Wind:</strong>{" "}
-                {
-                  daily.wind_speed_10m_max[
-                    index
-                  ]
-                }{" "}
-                mph
-              </p>
+                <div className="date-range-stat">
+                  <span>Wind</span>
+                  <strong>
+                    {
+                      daily.wind_speed_10m_max[
+                        index
+                      ]
+                    }{" "}
+                    mph
+                  </strong>
+                </div>
+              </div>
             </article>
           )
         )}

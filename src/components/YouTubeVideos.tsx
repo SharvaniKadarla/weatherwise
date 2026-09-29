@@ -23,11 +23,14 @@ interface Props {
 export default function YouTubeVideos({
   location,
 }: Props) {
-  const [videos, setVideos] = useState<Video[]>([]);
+  const [videos, setVideos] =
+    useState<Video[]>([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] =
+    useState(true);
 
-  const [error, setError] = useState("");
+  const [error, setError] =
+    useState("");
 
   useEffect(() => {
     async function fetchVideos() {
@@ -36,7 +39,9 @@ export default function YouTubeVideos({
         setError("");
 
         const response = await fetch(
-          `/api/youtube?q=${encodeURIComponent(location)}`
+          `/api/youtube?q=${encodeURIComponent(
+            location
+          )}`
         );
 
         const data =
@@ -67,53 +72,90 @@ export default function YouTubeVideos({
   }, [location]);
 
   return (
-    <section>
-      <h2>Travel Videos</h2>
+    <section className="travel-videos-section">
+      <div className="section-heading">
+        <div>
+          <span className="section-eyebrow">
+            EXPLORE THE DESTINATION
+          </span>
 
-      <p>
-        Explore videos about {location}
-      </p>
+          <h2>Travel Videos</h2>
+
+          <p>
+            Explore videos and travel inspiration
+            for {location}.
+          </p>
+        </div>
+      </div>
 
       {loading && (
-        <p>Loading travel videos...</p>
+        <div className="component-status">
+          <span className="status-spinner" />
+          <span>Finding travel videos...</span>
+        </div>
       )}
 
       {error && (
-        <p>❌ {error}</p>
+        <div className="component-error">
+          <span>⚠️</span>
+          <span>{error}</span>
+        </div>
       )}
 
       {!loading &&
         !error &&
         videos.length === 0 && (
-          <p>
-            No travel videos found.
-          </p>
+          <div className="empty-state">
+            <span className="empty-state-icon">
+              🎬
+            </span>
+
+            <h3>No travel videos found</h3>
+
+            <p> We could not find travel videos for this destination right now. </p>
+          </div>
         )}
 
       {!loading &&
         !error &&
         videos.length > 0 && (
-          <div>
+          <div className="video-grid">
             {videos.map((video) => (
-              <article key={video.videoId}>
-                <Image
-                  src={video.thumbnail}
-                  alt={video.title}
-                  width={320}
-                  height={180}
-                />
+              <article
+                className="video-card"
+                key={video.videoId}
+              >
+                <div className="video-image-wrapper">
+                  <Image
+                    src={video.thumbnail}
+                    alt={video.title}
+                    width={640}
+                    height={360}
+                    className="video-image"
+                  />
 
-                <h3>{video.title}</h3>
+                  <div className="video-play-badge">
+                    ▶
+                  </div>
+                </div>
 
-                <p>{video.description}</p>
+                <div className="video-content">
+                  <h3>{video.title}</h3>
 
-                <a
-                  href={video.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Watch on YouTube
-                </a>
+                  <p>{video.description}</p>
+
+                  <a
+                    href={video.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="video-link"
+                  >
+                    Watch on YouTube
+                    <span aria-hidden="true">
+                      ↗
+                    </span>
+                  </a>
+                </div>
               </article>
             ))}
           </div>

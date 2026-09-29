@@ -23,6 +23,12 @@ interface Props {
   weather: WeatherInsightsData;
 }
 
+interface Insight {
+  icon: string;
+  title: string;
+  message: string;
+}
+
 export default function WeatherInsights({
   weather,
 }: Props) {
@@ -36,85 +42,143 @@ export default function WeatherInsights({
         )
       : 0;
 
-  const insights: string[] = [];
+  const insights: Insight[] = [];
 
   if (rainProbability >= 70) {
-    insights.push(
-      `🌧️ High chance of rain. The forecast reaches ${rainProbability}% precipitation probability, so consider carrying an umbrella or rain jacket.`
-    );
+    insights.push({
+      icon: "🌧️",
+      title: "Rain Alert",
+      message:
+        `The forecast reaches ${rainProbability}% precipitation probability. Consider carrying an umbrella or rain jacket.`,
+    });
   } else if (rainProbability >= 40) {
-    insights.push(
-      `🌦️ Moderate chance of rain. The forecast reaches ${rainProbability}% precipitation probability, so it may be useful to carry light rain protection.`
-    );
+    insights.push({
+      icon: "🌦️",
+      title: "Possible Rain",
+      message:
+        `The forecast reaches ${rainProbability}% precipitation probability. Light rain protection may be useful.`,
+    });
   } else {
-    insights.push(
-      `☀️ Low chance of rain. The forecast's highest precipitation probability is ${rainProbability}%.`
-    );
+    insights.push({
+      icon: "☀️",
+      title: "Low Rain Risk",
+      message:
+        `The forecast's highest precipitation probability is ${rainProbability}%.`,
+    });
   }
 
   if (current.wind_speed_10m >= 25) {
-    insights.push(
-      `💨 Strong winds expected. Current wind speed is ${current.wind_speed_10m} mph, so outdoor activities may feel more challenging.`
-    );
+    insights.push({
+      icon: "💨",
+      title: "Strong Winds",
+      message:
+        `Current wind speed is ${current.wind_speed_10m} mph. Outdoor activities may feel more challenging.`,
+    });
   } else if (current.wind_speed_10m >= 15) {
-    insights.push(
-      `💨 Noticeable winds. Current wind speed is ${current.wind_speed_10m} mph, so consider the wind when planning outdoor activities.`
-    );
+    insights.push({
+      icon: "💨",
+      title: "Noticeable Winds",
+      message:
+        `Current wind speed is ${current.wind_speed_10m} mph. Consider wind conditions when planning outdoor activities.`,
+    });
   } else {
-    insights.push(
-      `🍃 Light winds. Current wind speed is ${current.wind_speed_10m} mph.`
-    );
+    insights.push({
+      icon: "🍃",
+      title: "Light Winds",
+      message:
+        `Current wind speed is ${current.wind_speed_10m} mph.`,
+    });
   }
 
   if (current.temperature_2m <= 40) {
-    insights.push(
-      `🧥 Cold conditions expected. The current temperature is ${current.temperature_2m}°F, so warm clothing is recommended.`
-    );
+    insights.push({
+      icon: "🧥",
+      title: "Cold Conditions",
+      message:
+        `The current temperature is ${current.temperature_2m}°F. Warm clothing is recommended.`,
+    });
   } else if (current.temperature_2m <= 55) {
-    insights.push(
-      `🧥 Cool conditions. The current temperature is ${current.temperature_2m}°F, so a light jacket may be useful.`
-    );
+    insights.push({
+      icon: "🧥",
+      title: "Cool Conditions",
+      message:
+        `The current temperature is ${current.temperature_2m}°F. A light jacket may be useful.`,
+    });
   } else if (current.temperature_2m >= 85) {
-    insights.push(
-      `🧴 Hot conditions expected. The current temperature is ${current.temperature_2m}°F, so stay hydrated and consider sun protection.`
-    );
+    insights.push({
+      icon: "🧴",
+      title: "Hot Conditions",
+      message:
+        `The current temperature is ${current.temperature_2m}°F. Stay hydrated and consider sun protection.`,
+    });
   } else {
-    insights.push(
-      `🌡️ Comfortable temperature range. The current temperature is ${current.temperature_2m}°F.`
-    );
+    insights.push({
+      icon: "🌡️",
+      title: "Comfortable Temperature",
+      message:
+        `The current temperature is ${current.temperature_2m}°F.`,
+    });
   }
 
   if (current.precipitation > 0) {
-    insights.push(
-      `☔ Precipitation is currently ${current.precipitation} mm, so outdoor plans may be affected by wet conditions.`
-    );
+    insights.push({
+      icon: "☔",
+      title: "Current Precipitation",
+      message:
+        `Precipitation is currently ${current.precipitation} mm. Outdoor plans may be affected by wet conditions.`,
+    });
   } else {
-    insights.push(
-      `🌤️ No measurable precipitation is currently reported.`
-    );
+    insights.push({
+      icon: "🌤️",
+      title: "Currently Dry",
+      message:
+        "No measurable precipitation is currently reported.",
+    });
   }
 
   if (current.relative_humidity_2m >= 80) {
-    insights.push(
-      `💧 High humidity. Current humidity is ${current.relative_humidity_2m}%, which may make the weather feel more uncomfortable.`
-    );
+    insights.push({
+      icon: "💧",
+      title: "High Humidity",
+      message:
+        `Current humidity is ${current.relative_humidity_2m}%, which may make conditions feel less comfortable.`,
+    });
   }
 
   return (
-    <section>
-      <h2>Travel Insights</h2>
+    <section className="insights-section">
+      <div className="section-heading">
+        <div>
+          <span className="section-eyebrow">
+            SMART ANALYSIS
+          </span>
 
-      <p>
-        Helpful travel considerations based on the
-        current weather and forecast.
-      </p>
+          <h2>Travel Insights</h2>
 
-      <div>
+          <p>
+            Helpful travel considerations based on
+            the current weather and forecast.
+          </p>
+        </div>
+      </div>
+
+      <div className="insights-grid">
         {insights.map(
-          (insight: string, index: number) => (
-            <div key={index}>
-              <p>{insight}</p>
-            </div>
+          (insight, index) => (
+            <article
+              className="insight-card"
+              key={`${insight.title}-${index}`}
+            >
+              <div className="insight-icon">
+                {insight.icon}
+              </div>
+
+              <div className="insight-content">
+                <h3>{insight.title}</h3>
+
+                <p>{insight.message}</p>
+              </div>
+            </article>
           )
         )}
       </div>

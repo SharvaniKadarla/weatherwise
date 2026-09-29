@@ -24,43 +24,78 @@ export default function CurrentWeather({
   const current = weather.current;
 
   return (
-    <section>
-      <div>
-        <div>
-          {getWeatherIcon(current.weather_code)}
+    <section className="current-weather-section">
+      <div className="current-weather-card">
+        <div className="current-weather-main">
+          <div className="current-weather-icon" aria-hidden="true">
+            {getWeatherIcon(current.weather_code)}
+          </div>
+
+          <div className="current-weather-temperature">
+            <span className="temperature-value">
+              {current.temperature_2m}
+            </span>
+            <span className="temperature-unit">°F</span>
+          </div>
+
+          <p className="current-weather-condition">
+            {getWeatherDescription(current.weather_code)}
+          </p>
+
+          <p className="current-weather-label">
+            Current conditions
+          </p>
         </div>
 
-        <h2>
-          {current.temperature_2m}°F
-        </h2>
+        <div className="weather-metrics">
+          <div className="weather-metric">
+            <span className="weather-metric-icon">🌡️</span>
+            <div>
+              <span className="weather-metric-label">
+                Feels like
+              </span>
+              <strong>
+                {current.apparent_temperature}°F
+              </strong>
+            </div>
+          </div>
 
-        <p>
-          {getWeatherDescription(
-            current.weather_code
-          )}
-        </p>
-      </div>
+          <div className="weather-metric">
+            <span className="weather-metric-icon">💧</span>
+            <div>
+              <span className="weather-metric-label">
+                Humidity
+              </span>
+              <strong>
+                {current.relative_humidity_2m}%
+              </strong>
+            </div>
+          </div>
 
-      <div>
-        <p>
-          Feels like:{" "}
-          {current.apparent_temperature}°F
-        </p>
+          <div className="weather-metric">
+            <span className="weather-metric-icon">💨</span>
+            <div>
+              <span className="weather-metric-label">
+                Wind
+              </span>
+              <strong>
+                {current.wind_speed_10m} mph
+              </strong>
+            </div>
+          </div>
 
-        <p>
-          Humidity:{" "}
-          {current.relative_humidity_2m}%
-        </p>
-
-        <p>
-          Wind:{" "}
-          {current.wind_speed_10m} mph
-        </p>
-
-        <p>
-          Precipitation:{" "}
-          {current.precipitation} mm
-        </p>
+          <div className="weather-metric">
+            <span className="weather-metric-icon">🌧️</span>
+            <div>
+              <span className="weather-metric-label">
+                Precipitation
+              </span>
+              <strong>
+                {current.precipitation} mm
+              </strong>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

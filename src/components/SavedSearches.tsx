@@ -116,7 +116,6 @@ export default function SavedSearches() {
     search: SavedSearch
   ) {
     setError("");
-
     setEditingId(search.id);
 
     setEditLocation(
@@ -134,7 +133,6 @@ export default function SavedSearches() {
 
   function cancelEditing() {
     setEditingId(null);
-
     setEditLocation("");
     setEditStartDate("");
     setEditEndDate("");
@@ -149,7 +147,6 @@ export default function SavedSearches() {
       setError(
         "Please enter a location."
       );
-
       return;
     }
 
@@ -160,7 +157,6 @@ export default function SavedSearches() {
       setError(
         "Please select both dates."
       );
-
       return;
     }
 
@@ -170,7 +166,6 @@ export default function SavedSearches() {
       setError(
         "End date must be on or after the start date."
       );
-
       return;
     }
 
@@ -188,10 +183,8 @@ export default function SavedSearches() {
           body: JSON.stringify({
             location:
               editLocation.trim(),
-
             startDate:
               editStartDate,
-
             endDate:
               editEndDate,
           }),
@@ -283,67 +276,112 @@ export default function SavedSearches() {
   }
 
   return (
-    <section>
-      <h2>Saved Searches</h2>
+    <section className="saved-searches">
+      <div className="section-heading">
+        <div>
+          <span className="section-eyebrow">
+            YOUR HISTORY
+          </span>
+
+          <h2>Saved Searches</h2>
+
+          <p>
+            Quickly access locations and trip dates
+            you have searched before.
+          </p>
+        </div>
+
+        {searches.length > 0 && (
+          <div className="saved-count">
+            {searches.length}{" "}
+            {searches.length === 1
+              ? "search"
+              : "searches"}
+          </div>
+        )}
+      </div>
 
       {loading && (
-        <p>
-          Loading saved searches...
-        </p>
+        <div className="component-status">
+          <span className="status-spinner" />
+          <span>Loading saved searches...</span>
+        </div>
       )}
 
       {error && (
-        <p>
-          ❌ {error}
-        </p>
+        <div className="component-error">
+          <span>⚠️</span>
+          <span>{error}</span>
+        </div>
       )}
 
       {!loading &&
         !error &&
         searches.length === 0 && (
-          <p>
-            No saved searches yet.
-          </p>
+          <div className="empty-state">
+            <span className="empty-state-icon">
+              📌
+            </span>
+
+            <h3>No saved searches yet</h3>
+
+            <p>
+              Your weather searches will appear here
+              for quick access later.
+            </p>
+          </div>
         )}
 
       {!loading &&
         searches.length > 0 && (
-          <div>
-            {searches.map(
-              (search) => (
-                <article
-                  key={search.id}
-                >
-                  {editingId ===
-                  search.id ? (
-                    <div>
-                      <h3>
-                        Edit Weather Search
-                      </h3>
+          <div className="saved-searches-grid">
+            {searches.map((search) => (
+              <article
+                className="saved-search-card"
+                key={search.id}
+              >
+                {editingId ===
+                search.id ? (
+                  <div className="saved-edit-form">
+                    <div className="saved-edit-header">
+                      <span className="saved-edit-icon">
+                        ✏️
+                      </span>
 
                       <div>
-                        <label
-                          htmlFor={`location-${search.id}`}
-                        >
-                          Location
-                        </label>
+                        <h3>
+                          Edit Weather Search
+                        </h3>
 
-                        <input
-                          id={`location-${search.id}`}
-                          type="text"
-                          value={
-                            editLocation
-                          }
-                          onChange={(e) =>
-                            setEditLocation(
-                              e.target.value
-                            )
-                          }
-                          placeholder="Enter city or ZIP code"
-                        />
+                        <p>
+                          Update the destination or
+                          trip dates.
+                        </p>
                       </div>
+                    </div>
 
-                      <div>
+                    <div className="saved-form-field">
+                      <label
+                        htmlFor={`location-${search.id}`}
+                      >
+                        Location
+                      </label>
+
+                      <input
+                        id={`location-${search.id}`}
+                        type="text"
+                        value={editLocation}
+                        onChange={(e) =>
+                          setEditLocation(
+                            e.target.value
+                          )
+                        }
+                        placeholder="Enter city or ZIP code"
+                      />
+                    </div>
+
+                    <div className="saved-date-fields">
+                      <div className="saved-form-field">
                         <label
                           htmlFor={`start-${search.id}`}
                         >
@@ -364,7 +402,7 @@ export default function SavedSearches() {
                         />
                       </div>
 
-                      <div>
+                      <div className="saved-form-field">
                         <label
                           htmlFor={`end-${search.id}`}
                         >
@@ -384,94 +422,118 @@ export default function SavedSearches() {
                           }
                         />
                       </div>
-
-                      <div>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            saveEdit(
-                              search.id
-                            )
-                          }
-                          disabled={saving}
-                        >
-                          {saving
-                            ? "Saving..."
-                            : "Save Changes"}
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={
-                            cancelEditing
-                          }
-                          disabled={saving}
-                        >
-                          Cancel
-                        </button>
-                      </div>
                     </div>
-                  ) : (
-                    <div>
-                      <h3>
-                        {
-                          search.location_name
-                        }
-                      </h3>
 
-                      {search.country && (
-                        <p>
-                          {
-                            search.country
-                          }
-                        </p>
-                      )}
-
-                      <p>
-                        {formatDate(
-                          search.start_date
-                        )}{" "}
-                        –{" "}
-                        {formatDate(
-                          search.end_date
-                        )}
-                      </p>
-
-                      <div>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            startEditing(
-                              search
-                            )
-                          }
-                        >
-                          Edit
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            deleteSearch(
-                              search
-                            )
-                          }
-                          disabled={
-                            deletingId ===
+                    <div className="saved-form-actions">
+                      <button
+                        type="button"
+                        className="button-primary small-button"
+                        onClick={() =>
+                          saveEdit(
                             search.id
+                          )
+                        }
+                        disabled={saving}
+                      >
+                        {saving
+                          ? "Saving..."
+                          : "Save Changes"}
+                      </button>
+
+                      <button
+                        type="button"
+                        className="button-secondary small-button"
+                        onClick={
+                          cancelEditing
+                        }
+                        disabled={saving}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="saved-search-content">
+                    <div className="saved-search-location">
+                      <div className="saved-location-icon">
+                        📍
+                      </div>
+
+                      <div>
+                        <h3>
+                          {
+                            search.location_name
                           }
-                        >
-                          {deletingId ===
-                          search.id
-                            ? "Deleting..."
-                            : "Delete"}
-                        </button>
+                        </h3>
+
+                        {search.country && (
+                          <p>
+                            {
+                              search.country
+                            }
+                          </p>
+                        )}
                       </div>
                     </div>
-                  )}
-                </article>
-              )
-            )}
+
+                    <div className="saved-search-dates">
+                      <span className="saved-date-icon">
+                        📅
+                      </span>
+
+                      <div>
+                        <span>
+                          Trip dates
+                        </span>
+
+                        <strong>
+                          {formatDate(
+                            search.start_date
+                          )}{" "}
+                          –{" "}
+                          {formatDate(
+                            search.end_date
+                          )}
+                        </strong>
+                      </div>
+                    </div>
+
+                    <div className="saved-search-actions">
+                      <button
+                        type="button"
+                        className="button-secondary small-button"
+                        onClick={() =>
+                          startEditing(
+                            search
+                          )
+                        }
+                      >
+                        ✏️ Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        className="button-danger small-button"
+                        onClick={() =>
+                          deleteSearch(
+                            search
+                          )
+                        }
+                        disabled={
+                          deletingId ===
+                          search.id
+                        }
+                      >
+                        {deletingId ===
+                        search.id
+                          ? "Deleting..."
+                          : "🗑️ Delete"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </article>
+            ))}
           </div>
         )}
     </section>

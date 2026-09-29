@@ -558,6 +558,12 @@ The source code is available on GitHub:
 
 ---
 
+## 🌐 Live Demo
+
+**WeatherWise:** https://weatherwise-delta.vercel.app/
+
+---
+
 ## 🚀 Deployment
 
 WeatherWise can be deployed directly to Vercel:
